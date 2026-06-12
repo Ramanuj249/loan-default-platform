@@ -38,7 +38,7 @@ def encode_categorical_columns(df):
 
 def scale_features(df, target_col = ["TARGET"]):
     X = df.drop(columns=target_col)
-    y = df[target_col]
+    y = df[target_col].values.ravel()
 
     scaler = StandardScaler()
     numerical_cols = X.select_dtypes(include=[np.number]).columns
