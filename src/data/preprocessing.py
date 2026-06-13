@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 from sklearn.impute import SimpleImputer
+from imblearn.over_sampling import SMOTE
 
 def drop_high_missing_columns(df, threshold = 40):
     missing_percentage = (df.isnull().sum()/len(df)) *100
@@ -46,6 +47,15 @@ def scale_features(df, target_col = ["TARGET"]):
 
     return X, y, scaler
 
+def apply_smote(X,y):
+    print(f"before smote - class distribution: {dict(zip(*np.unique(y, return_counts=True)))}")
+
+    smote = SMOTE(random_state=42)
+    X_resampled, y_resampled = smote.fit_resample(X, y)
+
+    print(f"After Smote - class distribution: {dict(zip(*np.unique(y_resampled, return_counts=True)))}")
+    return X_resampled, y_resampled
+
 def preprocess_data(df):
     print("Starting Preprocessing...")
     df = drop_high_missing_columns(df)
@@ -53,6 +63,8 @@ def preprocess_data(df):
     df = fill_missing_values(df)
     df = encode_categorical_columns(df)
     X, y, scaler = scale_features(df)
+    X, y = apply_smote(X, y)
+    print("Preprocessing complete!")
     return X, y, scaler
 
 if __name__ == "__main__":
