@@ -1,7 +1,13 @@
 from fastapi import FastAPI
 
-from api.schemas import LoanPredictionInput, LoanPredictionOutput
-from api.model_loader import load_model, get_risk_level
+try:
+    from api.schemas import LoanPredictionInput, LoanPredictionOutput
+    from api.model_loader import load_model, get_risk_level
+except ImportError:
+
+    from schemas import LoanPredictionInput, LoanPredictionOutput
+    from model_loader import load_model, get_risk_level
+
 import numpy as np
 from contextlib import asynccontextmanager
 
