@@ -10,3 +10,7 @@ __pycache__/
 *.joblib
 mlruns/
 .env
+
+models/
+*.pkl
+*.joblib

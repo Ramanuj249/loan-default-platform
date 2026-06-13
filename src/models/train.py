@@ -16,6 +16,9 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_sc
 import mlflow
 import mlflow.sklearn
 
+import joblib
+import os
+
 def get_models():
     models = {
         "Logistic Regression": LogisticRegression(max_iter=1000),
@@ -51,6 +54,16 @@ def train_and_evaluate(X, y, model_name, model):
 
         return metrics
 
+def save_model(model, scalar, model_name):
+    os.makedirs("models", exist_ok=True)
+
+    joblib.dump(model, f"models/{model_name.replace(' ', '_')}.pkl")
+
+    joblib.dump(scalar, "models/scaler.pkl")
+
+    print(f"Model saved: models/{model_name.replace(' ', '_')}.pkl")
+
+
 if __name__ == "__main__":
     df = pd.read_csv("/Users/shivamramanuj/Python_projects/loan-default-platform/data/application_train.csv")
 
@@ -68,3 +81,12 @@ if __name__ == "__main__":
     print("\n--- Model Comparison ---")
     for model_name, metrics in result.items():
         print(f"{model_name}: ROC AUC={metrics['roc_auc']:.4f}, F1={metrics['f1']:.4f}")
+
+
+    best_model_name = max(result, key=lambda x: result[x]['roc_auc'])
+    print(f"\nBest model: {best_model_name}")
+
+    best_model = models[best_model_name]
+    best_model.fit(X,y)
+
+    save_model(best_model, scalar, best_model_name)

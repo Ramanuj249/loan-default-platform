@@ -1,0 +1,10 @@
+.venv/
+venv/
+data/
+notebooks/
+mlruns/
+__pycache__/
+*.pyc
+.git/
+.DS_Store
+*.csv
