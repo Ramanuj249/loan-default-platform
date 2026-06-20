@@ -45,6 +45,8 @@ with col4:
 
 if st.button("Predict Default Risk"):
     # Prepare data to send to API
+    own_car_value = "Y" if own_car == "Yes" else "N"
+    own_realty_value = "Y" if own_realty == "Yes" else "N"
     data = {
         "AMT_INCOME_TOTAL": income,
         "AMT_CREDIT": credit_amount,
@@ -62,8 +64,8 @@ if st.button("Predict Default Risk"):
         "NAME_HOUSING_TYPE": housing_type,
         "NAME_INCOME_TYPE": income_type,
         "NAME_CONTRACT_TYPE": contract_type,
-        "FLAG_OWN_CAR": own_car,
-        "FLAG_OWN_REALTY": own_realty,
+        "FLAG_OWN_CAR": own_car_value,
+        "FLAG_OWN_REALTY": own_realty_value,
         "REGION_RATING_CLIENT": region_rating
     }
 
