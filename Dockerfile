@@ -16,5 +16,5 @@ COPY . .
 # Step 6 - Expose port
 EXPOSE 8000
 
-# Step 7 - Run FastAPI
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--app-dir", "api"]
+# Step 7 - Run FastAPI using dynamic port from Render
+CMD ["sh", "-c", "uvicorn api.main:app --host 0.0.0.0 --port ${PORT:-8000}"]
